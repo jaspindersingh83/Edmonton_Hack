@@ -1,0 +1,75 @@
+.Searchbar{
+    display: flex;
+    flex-direction: row;
+    height:50px;
+    padding: 0 30px;
+    align-items: center;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    border-bottom: 4px inset #f7f7f7cc;
+}
+.Searchbar__logoholder{
+    width: 10%;
+    height: inherit;
+    display: flex;
+    align-items: center;
+}
+
+.Searchbar__right{
+    width: 50%;
+    height: 100%;
+    align-items: center;
+    display: flex;
+    flex-direction: row-reverse;
+    box-sizing: border-box;
+}
+.glyphicon{
+    color: #11111166;
+}
+.glyphicon:hover { 
+    color: #88888833;
+}
+.glyphicon-list {
+    font-size: 25px;
+    margin-right: 30px;
+}
+.glyphicon-search {
+    font-size: 15px;
+}
+.glyphicon-bell{
+    font-size: 25px;
+    margin-right: 50px;
+}
+.glyphicon-user{
+    font-size: 25px;
+}
+input {
+    border: 1px solid #88888833 ;
+    padding-left: 5px;
+    font-size: 1.2em;
+    width: 30%;
+    height: 60%;
+  }
+  input::placeholder {
+    color:#11111166;
+    font-size: 15px;
+  }
+
+@media (max-width: 600px){
+    input{
+        display: none
+    }
+}
+
+.btn-default{
+    border: 1px solid #88888833 ;
+    height: 60%;
+    width: 80px;
+    align-items: center;
+}
+
+/* @media (max-width: 600px){
+    .btn-default{
+        display: none;
+    }
+} */

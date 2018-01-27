@@ -1,0 +1,28 @@
+.Carouselitem {
+   display: flex;
+   height: 225px;
+   align-items: center;
+   /* border: 1px solid red; */
+}
+.Carouselitem__img {
+    width: 250px;
+    height: 150px;
+    box-sizing: border-box;
+    margin-right: 10px;
+}
+/* .Carouselitem:hover{
+    display: flex;
+    cursor: pointer;
+    -webkit-transform: scale(1.5);
+        transform: scale(1.5);
+        transition-duration: 1s;
+} */
+
+/* .Carouselitem__details{
+
+} */
+/* .Carouselitem__img:hover{
+    height: 350px;
+} */
+
+

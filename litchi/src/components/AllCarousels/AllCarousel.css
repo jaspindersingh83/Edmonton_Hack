@@ -1,0 +1,8 @@
+.Allcarousel {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    margin: 10px;
+}
+
