@@ -1,7 +1,7 @@
+const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt')
 const User = require('../models/UserModel.js')
 const BCRYPT_COST = 11;
-
 
 const STATUS_USER_ERROR = 422;
 const sendUserError = (err, res) => {
@@ -41,38 +41,41 @@ const matchPassword = async (req, res, next) => {
     const {password} = req.body;
     const {username} = req.body;
     const {email} = req.body;
+    if (!password) return res.status(422).json({err: 'password required'});
     if(!email && !username) return sendUserError(new Error('Please enter either username or email'), res)
-    if(!email) {
-        try {
-            const user = await User.findOne({username});
-            if(!user) return sendUserError(new Error('No such user found'), res);
-            bcrypt.compare(password, user.passwordHash, (error, response) => {
-                if (!response) {
-                  return sendUserError(new Error('Password dont match'), res);
-                }
-                req.session.user = user.username;
-                next();
-              });
-        } catch (error){
-            return sendUserError(new Error('Internal Error', res))
+    try {
+        var user = null;
+        if(!email){
+            user = await User.findOne({username});
         }
-    }
-    if(!username) {
-        try {
-            const user = await User.findOne({email});
-            if(!user) return sendUserError(new Error('No such user found'), res);
-            bcrypt.compare(password, user.passwordHash, (error, response) => {
-                if (!response) {
-                  return sendUserError(new Error('Password don\'t match'), res);
-                }
-                req.session.user = user.username;
-                next();
-              });
-        } catch (error){
-            return sendUserError(new Error('Internal Error', res))
+        if(!username){
+            user = await User.findOne({email});
         }
+        if(!user) return sendUserError(new Error('No such user found'), res);
+        bcrypt.compare(password, user.passwordHash, (error, response) => {
+            if (!response) {
+                return sendUserError(new Error('Password dont match'), res);
+            }
+            next();
+            });
+    } catch (error){
+        return sendUserError(new Error('Internal Error', res))
     }
  }
+const authenticate = (req, res, next) => {
+    const token = req.get('Authorization');
+    if (token) {
+      jwt.verify(token, mysecret, (err, decoded) => {
+        if (err) return res.status(422).json(err);
+        req.decoded = decoded;
+        next();
+      });
+    } else {
+      return res.status(403).json({
+        error: 'No token provided, must be set on the Authorization Header'
+      });
+    }
+  };
 
 module.exports = {validateEmail,
                 sendUserError,

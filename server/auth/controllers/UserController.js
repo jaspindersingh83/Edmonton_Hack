@@ -1,7 +1,9 @@
 const User = require('../models/UserModel.js')
+const jwt = require('jasonwebtoken')
 
 const createUser = async(req,res) => {
     const {username} = req.body;
+    if (!username) return res.status(422).json({err: 'username required'});
     const {email} = req.body;
     const {hashedPassword} = req;
     try {
@@ -20,9 +22,10 @@ const getUsers = async(req, res) => {
         res.status(422).json({message:'Could note get all users'})
     }
 };
-const getMe = (req,res) =>{
-    const username = req.session.user;
-    res.status(200).json({username})
-};
+const login = async(req,res) => {
+    const username = req.username;
+    const payload = {usernam:username};
+    const token = jwt.sign(payload,mysecret);
+}
 
-module.exports= {createUser,getUsers,getMe};
+module.exports= {createUser,getUsers,login};
