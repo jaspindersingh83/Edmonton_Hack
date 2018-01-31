@@ -64,8 +64,9 @@ input {
 .btn-default{
     border: 1px solid #88888833 ;
     height: 60%;
-    width: 80px;
     align-items: center;
+    font-family: Roboto, Arial, sans-serif;
+    font-size: 16px;
 }
 
 /* @media (max-width: 600px){

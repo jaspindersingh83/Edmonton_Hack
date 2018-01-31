@@ -14,7 +14,7 @@ class Carouselnavigation extends Component{
                 <Glyphicon 
                     glyph="menu-left"
                     style={{color:'white',fontSize:'30px'}}
-                 />
+                />
                 </div>: 
                 <div className='Navbox__arrowholder__hidden'>
                 </div>}
