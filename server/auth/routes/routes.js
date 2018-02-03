@@ -4,8 +4,9 @@ const {validateEmail,
 const {createUser,getUsers,login} = require('../controllers/UserController')
 module.exports = server => {
     server
-        .route('/signup')
-        .post(hashPassword,validateEmail, createUser);
+        .route('/users')
+        .post(hashPassword,validateEmail, createUser)
+        .get(getUsers);
     server.route('/login').post(matchPassword,login);
     // server.route('/logout').post(matchPassword,logout);
 };

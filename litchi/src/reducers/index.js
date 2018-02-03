@@ -1,19 +1,16 @@
 import { combineReducers } from 'redux';
-import {CREATE_USER, LOGIN, AUTHENTICATION_ERROR} from '../actions/index'
+import {CREATE_USER, LOGIN} from '../actions/index'
 
-const authReducer = (auth={}, action) => {
+const authReducer = (users= [], action) => {
     switch(action.type){
         case CREATE_USER:
-          return {...auth};
-        
-        case AUTHENTICATION_ERROR:
-          return {...auth,error:action.payload}
+          return action.payload.data;
     
         case LOGIN:
           return action.payload.data;
         
         default:
-          return auth;
+          return users;
     }
     
 }
