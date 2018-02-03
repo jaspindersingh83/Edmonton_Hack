@@ -9,9 +9,9 @@ import ReduxPromise from 'redux-promise';
 //components
 import SearchBar from './components/SearchBar/SearchBar';
 import AllCarousel from './components/AllCarousels/AllCarousel';
-import Login from './components/auth/login';
-import Logout from './components/auth/logout';
-import Signup from './components/auth/signup';
+import Login from './components/Auth/Login';
+import Logout from './components/Auth/Logout';
+import Signup from './components/Auth/Signup';
 import Home from './components/Home/Home'
 
 import dummyData from './dummy-data';

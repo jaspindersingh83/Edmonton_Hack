@@ -1,7 +1,0 @@
-.Carousel__inner{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    overflow: hidden;
-    align-items: center;
-}
