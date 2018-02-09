@@ -14,21 +14,27 @@ const sendUserError = (err, res) => {
   };
 
 async function hashPassword(req, res, next) {//same as const hashPassword = async(req,res) => 
-    const {password} = req.body;
-    if(!password || password.length<8){
-        return sendUserError(new Error('Please send a valid password with minimum 8 characters'), res);
-    }
+    const {password, username} = req.body;
     bcrypt.hash(password, BCRYPT_COST, (err,hash) => {
         req.hashedPassword = hash;
         next();
     })
 }
 
+const validateUsernamePassword = (req,res,next) => {
+    const {password, username, confirmPassword} = req.body;
+    if(username.length < 5){
+        return sendUserError(new Error('Your username must contain between 5 to 60 characters'), res);
+    }
+    if(password.length<6){
+        return sendUserError(new Error('Your password must contain between 6 to 60 characters'), res);
+    }
+    if(password !== confirmPassword)  return sendUserError(new Error('Password and confirm password don\'t match'), res);
+    next();
+}
+
 async function validateEmail(req, res, next){
     const {email} = req.body; 
-    if(!email ){
-        return sendUserError(new Error('Please enter an email'), res);
-    }
     let tester = /^[-!#$%&'*+\/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-?\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/;
     const valid = tester.test(email);
     if(!valid){
@@ -51,10 +57,10 @@ const matchPassword = async (req, res, next) => {
         if(!username){
             user = await User.findOne({email});
         }
-        if(!user) return sendUserError(new Error('No such user found'), res);
+        if(!user) return sendUserError(new Error('Sorry, we could not find an account with this username or email'), res);
         bcrypt.compare(password, user.passwordHash, (error, response) => {
             if (!response) {
-                return sendUserError(new Error('Password dont match'), res);
+                return sendUserError(new Error('Incorrect Password'), res);
             }
             req.username = user.username;
             next();
@@ -68,4 +74,5 @@ const matchPassword = async (req, res, next) => {
 module.exports = {validateEmail,
                 sendUserError,
                 hashPassword,
+                validateUsernamePassword,
                 matchPassword}

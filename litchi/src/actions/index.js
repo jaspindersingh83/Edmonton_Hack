@@ -16,13 +16,22 @@ export const createUser = async (user, history) =>{
     const apiurl = `${ROOT_URL}/signup`;
     try {
         const adduserrequest = await axios.post(apiurl,user);
-        history.push('/signin');
+        history.push('/login');
+        console.log(adduserrequest);
         return {
             type:CREATE_USER,
             payload:adduserrequest
         }
     } catch(error){
-        return authError('Something Went Wrong');
+        if(error.response.data.message.errmsg){
+            const duplicateKey =error.response.data.message.errmsg
+            let emailKeyWordPresent = duplicateKey.search(/email/i)
+            if(emailKeyWordPresent === -1){
+                return(authError('Username Unavailable'))
+            }
+            return authError('Email already registered')
+        } 
+        return authError(error.response.data.message);
     }
 };
 
@@ -37,6 +46,6 @@ export const login = async (user, history) =>{
             payload:loginrequest
         }
     } catch (error){
-        return authError('Incorrect email/password combination');
+        return authError(error.response.data.message);
     }     
 }

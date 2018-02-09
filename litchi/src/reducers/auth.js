@@ -1,13 +1,19 @@
-const authReducer = (users= [], action) => {
-    switch(action.type){
-        case CREATE_USER:
-          return action.payload.data;
+import {CREATE_USER, LOGIN, AUTHENTICATION_ERROR} from '../actions/index'
+
+const authReducer = (auth={}, action) => {
+  switch(action.type){
+    case CREATE_USER:
+      return {...auth,signedUpusername: action.payload.dat};
+
+    case AUTHENTICATION_ERROR:
+      return {...auth,error:action.payload};
+
+    case LOGIN:
+      return {...auth};
     
-        case LOGIN:
-          return action.payload.data;
-        
-        default:
-          return users;
-    }
+    default:
+      return auth;
+  }
 }
 
+export default authReducer;
