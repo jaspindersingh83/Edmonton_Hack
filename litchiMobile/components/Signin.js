@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, Text,  TouchableOpacity, AsyncStorage} from 'react-native';
+import {View, StyleSheet, Text,  TouchableOpacity, AsyncStorage, Linking} from 'react-native';
 import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements'; 
 import axios from 'axios';
 import { StackNavigator } from 'react-navigation';
@@ -9,6 +9,9 @@ import Backgroundvideo from './Backgroundvideo';
 const apiUrl = 'http://localhost:5000';
 
 class SignIn extends Component{
+    static navigationOptions = {
+        header: null,
+    }
     constructor(props){
         super(props);
         this.state = {
@@ -85,7 +88,7 @@ class SignIn extends Component{
                     <FormLabel labelStyle={{color:'white',fontSize:18}}>Password</FormLabel>
                     <FormInput value={this.state.password} textInputRef='password'  secureTextEntry={true} inputStyle={{color:'white',fontSize:18 }} onChangeText={(text) => this.handleInput(text,'password')}/>
                     <FormValidationMessage>{this.state.error}</FormValidationMessage>
-                    <TouchableOpacity style={Hyperlink} onPress={() => alert('Pressed')}>
+                    <TouchableOpacity style={Hyperlink} onPress={() => { Linking.openURL(`${apiUrl}/recoverpassword`)}}>
                         <Text style={Hyperlinktext}>Forgot Username or Password</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={button} onPress={() => this.signIn()}>

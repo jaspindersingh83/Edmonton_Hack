@@ -47,18 +47,14 @@ const matchPassword = async (req, res, next) => {
     const {password} = req.body;
     const {username} = req.body;
     const {email} = req.body;
+    console.log(password)
     if (!password) return res.status(422).json({err: 'password required'});
     if(!email && !username) return sendUserError(new Error('Please enter either username or email'), res)
     try {
-        var user = null;
-        if(!email){
-            user = await User.findOne({username});
-        }
-        if(!username){
-            user = await User.findOne({email});
-        }
-        if(!user) return sendUserError(new Error('Sorry, we could not find an account with this username or email'), res);
-        bcrypt.compare(password, user.passwordHash, (error, response) => {
+        //Gives put array of users.
+        const user = await User.find().or([{username},{email}])
+        if(!user.length) return sendUserError(new Error('Sorry, we could not find an account with this username or email'), res);
+        bcrypt.compare(password, user[0].passwordHash, (error, response) => {
             if (!response) {
                 return sendUserError(new Error('Incorrect Password'), res);
             }

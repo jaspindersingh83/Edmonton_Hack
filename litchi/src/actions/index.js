@@ -17,7 +17,6 @@ export const createUser = async (user, history) =>{
     try {
         const adduserrequest = await axios.post(apiurl,user);
         history.push('/login');
-        console.log(adduserrequest);
         return {
             type:CREATE_USER,
             payload:adduserrequest

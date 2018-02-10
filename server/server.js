@@ -2,7 +2,7 @@ const bodyParser = require('body-parser');
 //Morgan and dependencies
 const fs = require('fs');
 const morgan = require('morgan');
-const path = require('path')
+const path = require('path');
 
 //Express
 const express = require('express');
@@ -15,6 +15,11 @@ const cors = require('cors');
 //     credetials: true
 //   };
 
+//Fb Middleware use 
+const passport = require('passport')
+const {fbstrategy} = require('./auth/controllers/FbController')
+passport.use(fbstrategy);
+  
 
 //if using Session
 // const session = require('express-session');

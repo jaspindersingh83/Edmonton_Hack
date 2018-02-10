@@ -36,28 +36,12 @@ class Signup extends Component {
             error:props.error
         }); 
     }
-    handleUsernameInput = (e) =>{
+
+    //Rather than having individual input functions 
+    handleInput = (e,type) => {
         e.preventDefault();
         this.setState({
-            username: e.target.value
-        })
-    }
-    handlePasswordInput = (e) =>{
-        e.preventDefault();
-        this.setState({
-            password:e.target.value
-        })
-    }
-    handleconfirmPasswordInput = (e) =>{
-        e.preventDefault();
-        this.setState({
-            confirmPassword:e.target.value
-        })
-    }
-    handleEmailInput = (e) =>{
-        e.preventDefault();
-        this.setState({
-            email: e.target.value
+            [type]:e.target.value
         })
     }
     render() {
@@ -70,13 +54,13 @@ class Signup extends Component {
                     {this.renderAlert()}
                     <form onSubmit={this.signup}>
                         <label>Username</label>
-                        <input onChange={this.handleUsernameInput} value={this.state.username} type="text"/>
+                        <input onChange={(e) => this.handleInput(e,'username')} value={this.state.username} type="text"/>
                         <label>Password</label>
-                        <input onChange={this.handlePasswordInput} value={this.state.password} type="password"/>
+                        <input onChange={(e) =>this.handleInput(e,'password')} value={this.state.password} type="password"/>
                         <label>Confirm Password</label>
-                        <input onChange={this.handleconfirmPasswordInput} value={this.state.confirmPassword} type="password"/>
+                        <input onChange={(e) =>this.handleInput(e,'confirmPassword')} value={this.state.confirmPassword} type="password"/>
                         <label>Email</label>
-                        <input onChange={this.handleEmailInput} value={this.state.email} type="text"/>
+                        <input onChange={(e) =>this.handleInput(e,'email')} value={this.state.email} type="text"/>
                         <Button style={{width:'100%', margin:'20px 0px'}} bsStyle="danger" type="submit" >
                             Sign Up
                         </Button>
@@ -94,7 +78,6 @@ class Signup extends Component {
 const mapStateToProps = (state) => {
     return {
         error: state.auth.error,
-        signedup: state.auth.signedup
     };
 };
 

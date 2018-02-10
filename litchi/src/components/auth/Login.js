@@ -12,25 +12,24 @@ class Login extends Component {
         this.state = {
             username:'',
             password:'',
+            email:'',
             error: undefined,
             renderedAfterSignUp: false
         }
+        console.log(this.props)
+        console.log(this.state)
     }
     login = (e) =>{
         e.preventDefault();
-        let tester = /^[-!#$%&'*+0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-?\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/;
-        const valid = tester.test(this.state.username);
-        if(!valid){
-            this.props.login(this.state, this.props.history);
-        } else {
-            const modifiedobj = {email:this.state.username, password: this.state.password}
-            this.props.login(modifiedobj, this.props.history);
-        }
+        this.props.login(this.state, this.props.history);
     }
     componentWillReceiveProps(props) {
-        if(props.signedup && !this.state.renderedAfterSignUp){
+        if(props.signedUpusername && !this.state.renderedAfterSignUp){
+            console.log(props)
+            console.log('I am triggered')
             this.setState({
-                username:'',
+                username:props.signedUpusername,
+                email:props.signedUpusername,
                 password:'',
                 error:undefined,
                 renderedAfterSignUp: true
@@ -46,7 +45,8 @@ class Login extends Component {
     handleUsernameInput = (e) =>{
         e.preventDefault();
         this.setState({
-            username: e.target.value
+            username: e.target.value,
+            email: e.target.value,
         })
     }
     handlePasswordInput = (e) =>{
@@ -61,7 +61,7 @@ class Login extends Component {
         return <p style={{color:'#e50914'}}>{this.state.error}</p>;
     }
     renderSignupSuccess = () => {
-        if (!this.props.signedup) return null;
+        if (!this.props.signedUpusername) return null;
         return <p style={{color:'#e50914'}}>Sign Up successfull, Please sign in</p>;
     }
 
@@ -107,7 +107,7 @@ class Login extends Component {
 const mapStateToProps = (state) => {
     return {
         error: state.auth.error,
-        signedup: state.auth.signedup
+        signedUpusername: state.auth.signedUpusername
     };
 };
 

@@ -2,10 +2,13 @@ import React, {Component} from 'react';
 import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import Backgroundvideo from './Backgroundvideo';
+
 class Home extends Component{
+    static navigationOptions = {
+        header: null,
+    }
     render(){
         return(
-            
             <View style={body}>
                 {/* <Backgroundvideo /> */}
                     <Text style={h1}>TV is Dead, Our Stories are not</Text>

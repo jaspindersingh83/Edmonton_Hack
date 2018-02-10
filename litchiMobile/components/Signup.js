@@ -9,6 +9,9 @@ import axios from 'axios';
 const apiUrl = 'http://localhost:5000';
 
 class SignUp extends Component{
+    static navigationOptions = {
+        header: null,
+    }
     constructor(props){
         super(props);
         this.state = {
