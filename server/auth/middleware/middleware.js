@@ -47,7 +47,6 @@ const matchPassword = async (req, res, next) => {
     const {password} = req.body;
     const {username} = req.body;
     const {email} = req.body;
-    console.log(password)
     if (!password) return res.status(422).json({err: 'password required'});
     if(!email && !username) return sendUserError(new Error('Please enter either username or email'), res)
     try {
@@ -58,7 +57,8 @@ const matchPassword = async (req, res, next) => {
             if (!response) {
                 return sendUserError(new Error('Incorrect Password'), res);
             }
-            req.username = user.username;
+            req.username = user[0].username;
+            req.isAdmin = user[0].isAdmin
             next();
             });
     } catch (error){

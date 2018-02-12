@@ -2,14 +2,17 @@ import axios from 'axios'
 export const CREATE_USER = 'CREATE_USER';
 export const LOGIN = 'LOGIN';
 export const AUTHENTICATION_ERROR = 'AUTHENTICATION_ERROR';
+export const ADMIN_AUTHORIZED = 'ADMIN_AUTHORIZED';
 //To be changed for Production
 const ROOT_URL = 'http://localhost:5000';
 
 export const authError = error => {
-    return {
-        type: AUTHENTICATION_ERROR,
-        payload: error
-    };
+    return dispatch => {
+        dispatch({type: AUTHENTICATION_ERROR, payload: error})
+        setTimeout(() => {
+            dispatch({type: AUTHENTICATION_ERROR})
+        }, 4000)
+    }
 };
 
 export const createUser = async (user, history) =>{
@@ -22,6 +25,7 @@ export const createUser = async (user, history) =>{
             payload:adduserrequest
         }
     } catch(error){
+        if(error.message === 'Network Error') return authError('Network Error - Email jaspinder to start server')
         if(error.response.data.message.errmsg){
             const duplicateKey =error.response.data.message.errmsg
             let emailKeyWordPresent = duplicateKey.search(/email/i)
@@ -30,7 +34,7 @@ export const createUser = async (user, history) =>{
             }
             return authError('Email already registered')
         } 
-        return authError(error.response.data.message);
+        if(error.response.data.message) return authError(error.response.data.message);
     }
 };
 
@@ -47,4 +51,23 @@ export const login = async (user, history) =>{
     } catch (error){
         return authError(error.response.data.message);
     }     
+}
+
+export const adminAuth = async (history) => {
+    const token = localStorage.getItem('token')
+    try{
+        const adminRequest = await axios.get(
+            `${ROOT_URL}/admin`,
+            { 
+            headers: {
+              Authorization: token
+            }
+        });
+        return {
+            type:ADMIN_AUTHORIZED
+        }
+    } catch (error){
+        history.push('/login');
+        return authError(error.response.data.message);
+    }
 }

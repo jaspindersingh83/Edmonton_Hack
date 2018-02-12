@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const fs = require('fs');
 const morgan = require('morgan');
 const path = require('path');
+const passport = require('passport')
 
 //Express
 const express = require('express');
@@ -14,12 +15,6 @@ const cors = require('cors');
 //     origin: 'http://localhost:3000',
 //     credetials: true
 //   };
-
-//Fb Middleware use 
-const passport = require('passport')
-const {fbstrategy} = require('./auth/controllers/FbController')
-passport.use(fbstrategy);
-  
 
 //if using Session
 // const session = require('express-session');
@@ -35,12 +30,16 @@ const port = process.env.PORT || 5000;
 server.use(bodyParser.json());
 server.use(morgan('combined'));
 server.use(cors());
+//Fb Middleware use 
+server.use(passport.initialize());
 
 //Creating Log Files
 const accessLogStream = fs.createWriteStream(
   path.join(__dirname, "./access.log"),
   { flags: "a" }
 );
+
+
 
 //define your session Object --Update: Using JWT now
 // server.use(session({

@@ -1,5 +1,7 @@
-const jwt = request('jasonwebtoken')
+const jwt = require('jsonwebtoken')
 const {mysecret} = require('../config.js')
+
+
 const authenticate = (req,res,next) => {
     const token = req.get('Authorization')
     if(token){

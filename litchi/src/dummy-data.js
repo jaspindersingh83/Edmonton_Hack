@@ -30,7 +30,7 @@ const dummyData = [
                 director:'Amberdeep Singh',
                 actors:[
                     {
-                        maleLead : 'Amrinder Gill',
+                        maleLead : 'Amarinder Gill',
                         femaleLead : 'Sargun Mehta',
                         comedian : 'Guggu Gill',
                     }

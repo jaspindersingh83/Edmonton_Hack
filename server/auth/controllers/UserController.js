@@ -16,19 +16,13 @@ const createUser = async(req,res) => {
     }
 };
 
-const getUsers = async(req, res) => {
-    try {
-        const users = await User.find({});
-        res.status(200).json(users)
-    } catch (error) {
-        res.status(422).json({message:'Could note get all users'})
-    }
-};
+
 //login
 const login = async(req,res) => {
     const username = req.username;
-    const payload = {username};
-    const token = jwt.sign(payload,mysecret);
+    const isAdmin = req.isAdmin
+    const payload = {username, isAdmin};
+    const token = await jwt.sign(payload,mysecret);
     res.status(200).json({token});
 }
 //logout
@@ -39,6 +33,12 @@ const login = async(req,res) => {
 //     res.status(200).json({token});
 // }
 
+const isAdmin = async(req, res) => {
+    const isAdmin = req.decoded.isAdmin;
+    if(isAdmin) return res.status(200).json({success:true})
+    else{
+        return res.status(422).json({message:'You are not authorized as admin'})
+    }
+}
 
-
-module.exports= {createUser,getUsers,login};
+module.exports= {createUser,login, isAdmin};

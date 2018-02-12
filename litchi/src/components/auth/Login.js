@@ -16,17 +16,14 @@ class Login extends Component {
             error: undefined,
             renderedAfterSignUp: false
         }
-        console.log(this.props)
-        console.log(this.state)
     }
+    
     login = (e) =>{
         e.preventDefault();
         this.props.login(this.state, this.props.history);
     }
     componentWillReceiveProps(props) {
         if(props.signedUpusername && !this.state.renderedAfterSignUp){
-            console.log(props)
-            console.log('I am triggered')
             this.setState({
                 username:props.signedUpusername,
                 email:props.signedUpusername,
@@ -54,6 +51,9 @@ class Login extends Component {
         this.setState({
             password:e.target.value
         })
+    }
+    fbLogin = async(e) => {
+        window.location = "http://localhost:5000/auth/facebook";
     }
 
     renderAlert = () => {
@@ -86,17 +86,15 @@ class Login extends Component {
                             Sign In
                         </Button>
                     </form>
-                    <p>
-                        <Link to={'/signup'} className='Link'>Login With Facebook</Link>
-                    </p>
+                    <div className='Fblogin'>
+                    <img className='Iconimage' alt='O yeah' src='https://assets.nflxext.com/ffe/siteui/login/images/FB-f-Logo__blue_57.png'/>
+                    <div onClick={this.fbLogin} className='Link'>Login With Facebook
+                    </div>
+                    </div>
                     <p>New to Litchi? 
-                        <Link 
-                        to={{
-                            pathname: '/signup',
-                            state: {error: undefined} 
-                          }}
-                         className='Link'> Sign Up now</Link>
+                        <Link to={'/signup'} className='Link'> Sign Up now</Link>
                     </p>
+                    
                 </div>
             </div>
         </div>

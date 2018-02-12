@@ -1,4 +1,4 @@
-import {CREATE_USER, LOGIN, AUTHENTICATION_ERROR} from '../actions/index'
+import {CREATE_USER, LOGIN, AUTHENTICATION_ERROR, ADMIN_AUTHORIZED} from '../actions/index'
 
 const authReducer = (auth={}, action) => {
   switch(action.type){
@@ -10,6 +10,9 @@ const authReducer = (auth={}, action) => {
 
     case LOGIN:
       return {...auth};
+    
+    case ADMIN_AUTHORIZED:
+      return {...auth,admin: true};
     
     default:
       return auth;
