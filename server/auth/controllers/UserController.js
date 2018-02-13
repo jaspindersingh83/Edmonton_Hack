@@ -26,12 +26,9 @@ const login = async(req,res) => {
     res.status(200).json({token});
 }
 //logout
-// const logout = async(req,res) => {
-//     const username = req.username;
-//     const payload = {username};
-//     const token = jwt.sign(payload,mysecret);
-//     res.status(200).json({token});
-// }
+const logout = async(req,res) => {
+    res.status(200).json({success:true});
+}
 
 const isAdmin = async(req, res) => {
     const isAdmin = req.decoded.isAdmin;
@@ -41,4 +38,4 @@ const isAdmin = async(req, res) => {
     }
 }
 
-module.exports= {createUser,login, isAdmin};
+module.exports= {createUser,login,logout,isAdmin};

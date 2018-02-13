@@ -1,6 +1,7 @@
 import axios from 'axios'
 export const CREATE_USER = 'CREATE_USER';
 export const LOGIN = 'LOGIN';
+export const LOGOUT = 'LOGOUT';
 export const AUTHENTICATION_ERROR = 'AUTHENTICATION_ERROR';
 export const ADMIN_AUTHORIZED = 'ADMIN_AUTHORIZED';
 //To be changed for Production
@@ -52,11 +53,32 @@ export const login = async (user, history) =>{
         return authError(error.response.data.message);
     }     
 }
-
-export const adminAuth = async (history) => {
+export const logout = async (history) =>{
+    const apiurl = `${ROOT_URL}/logout`;
     const token = localStorage.getItem('token')
+    try {
+        await axios.get(apiurl,
+            { 
+                headers: {
+                  Authorization: token
+                }
+            }
+        );
+        //remove the JWT from local storage
+        localStorage.removeItem('token');
+        history.push('/login');
+        return {
+            type:LOGOUT
+        }
+    } catch (error){
+        return authError(error.response.data.message);
+    }
+}
+
+export const adminAuth = async (history) => {   
     try{
-        const adminRequest = await axios.get(
+        const token = localStorage.getItem('token')
+        await axios.get(
             `${ROOT_URL}/admin`,
             { 
             headers: {
@@ -68,6 +90,6 @@ export const adminAuth = async (history) => {
         }
     } catch (error){
         history.push('/login');
-        return authError(error.response.data.message);
+        return authError('You are not authorized as admin');
     }
 }

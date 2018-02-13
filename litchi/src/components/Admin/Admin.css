@@ -1,21 +1,37 @@
-.Adminbody{
+.AdminNavbar {
     display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    background-image: url('./Iron-Throne.jpg');
-    background-size: cover;
-    height: 100%;
+    flex-direction: row;
+    justify-content: space-between;
     width: 100%;
-    padding-top: 30px;
-    padding-right: 50px
-    
+    align-items: center;
+    height: 50px;
+    background-color:rgba(229, 9, 20, 1); 
+    padding: 0 30px;
 }
-.Adminfield{
+.AdminNavbar__element{
+    cursor: pointer;
+}
+.AdminNavbar__element:hover{
+    color: rgba(0, 0, 0, 0.8);
+}
+.Videocontainer{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-around;
     align-items: flex-start;
-    margin: 10px;
-    justify-content: flex-start;
+    width: 100%;
+    height: 100%;
+    background-color:rgba(0, 0, 0, 0.8);
+    padding: 10px;
+}
+.Videocontainer__Filesupload,.Videocontainer__Videodetails,.Adminfield{
+    display: flex;
+    flex-direction: column
+}
+.Videocontainer__Filesupload,.Videocontainer__Videodetails{
+    width: 40%;
+    padding-left: 30px;
+    justify-content: space-around;
 }
 .Dropzone{
     width: 250px;

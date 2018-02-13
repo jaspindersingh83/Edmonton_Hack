@@ -1,5 +1,7 @@
 import React,{Component} from 'react';
 import Select from 'react-select';
+import 'react-select/dist/react-select.css';
+import './Dropdown.css';
 
 class Dropdown extends Component {
     constructor(props){
@@ -17,7 +19,7 @@ class Dropdown extends Component {
       const { selectedOption } = this.state;
       const value = selectedOption && selectedOption.value;
       return (
-        <Select
+        <Select className='Dropdown'
           name="form-field-name"
           placeholder = {this.props.placeholder}
           value={value}
