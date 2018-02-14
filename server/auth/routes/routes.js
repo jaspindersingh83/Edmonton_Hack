@@ -3,10 +3,11 @@ const {validateEmail,
         matchPassword,
         validateUsernamePassword} = require('../middleware/middleware');
 const {authenticate} = require('../../common/common');
-const {createUser,getUsers,login,isAdmin, logout} = require('../controllers/UserController');
+const {createUser,getUsers,login,isAdmin,logout} = require('../controllers/UserController');
 const passport = require('passport');
 const {fbstrategy, fbLogin} = require('../controllers/FbController');
 passport.use(fbstrategy);
+
 
 
 module.exports = server => {

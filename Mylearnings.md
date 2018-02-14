@@ -15,6 +15,15 @@
 * Applied Redux-Thunk to make the transitions smooth between Signup and Login..The error was persisting in props..Now implemented a timeout action with dispatch in Thunk.
 Using Redux Promise and Thunk both. Need to learn how to handle everything with Thunk only.
 
+* Content 
+
+* Uploading content to S3 is a challenge. Amazon has done a great job with AWS-SDK, but I got struck at parsing HTML data from a multiform on client side. I used multer-S3 with multer but it was difficult for me to understand as Multer is a high level middleware that piggy backs on Busboy. Busboy is low level and helps me understand under the hood stuff better.
+
+* The critical decision is design of the ContentModel. I want customer side rendeing to be fast. I can either have a simple hashtable with (genre,title,thumbnailUrl, imageUrl....etc) or a model with following format(genre,carouselItems:[title,thumbnailUrl, imageUrl....etc]). The BigO of latter case for carousel rendering will be O(n) as I will get data in array form itself. But in first case I will get the data with a filter on genre and then will have to put same data in array and sort it. Will take O(nlogn). So decided to do heavy lifting on upload side. The BigO of finding video by id is going to be same in both cases as under the hood mongoDb uses hash index, so O(1) in both cases.
+
+* Learning to Create one to many relationship in mongoose was fun
+
+
 
 
 
