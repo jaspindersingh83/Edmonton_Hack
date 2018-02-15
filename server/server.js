@@ -43,65 +43,7 @@ server.use(passport.initialize());
 AWS.config.update(S3config)
 AWS.config.region = awsRegion
 
-function uploadToS3(file) {
-    let s3bucket = new AWS.S3(S3config);
-    s3bucket.createBucket(function () {
-        var params = {
-          Bucket: `${S3config.Bucket}`,
-          Key: file.name,
-          Body: file.data,
-          ACL: 'public-read',
-          ContentType: 'image/jpeg'
-        };
-        s3bucket.upload(params, function (err, data) {
-          if (err) {
-            console.log('error in callback');
-            console.log(err);
-          }
-          console.log('success');
-          console.log(data);
-        });
-    });
-  }
 
-  server.post('/upload', (req, res, next) => {
-    // This grabs the additional parameters so in this case passing in
-    // "element1" with a value.
-    
-    const element1 = req.body.element1;
-    console.log(element1)
-    const busboy = new Busboy({ headers: req.headers });
-    // console.log(busboy)
-
-    // The file upload has completed
-    busboy.on('finish', function() {
-      console.log('Upload finished');
-      
-      // Your files are stored in req.files. In this case,
-      // you only have one and it's req.files.element2:
-      // This returns:
-      // {
-      //    element2: {
-      //      data: ...contents of the file...,
-      //      name: 'Example.jpg',
-      //      encoding: '7bit',
-      //      mimetype: 'image/png',
-      //      truncated: false,
-      //      size: 959480
-      //    }
-      // }
-      
-      // Grabs your file object from the request.
-      const file = req.files.element2;
-      console.log(file);
-      
-      // Begins the upload to the AWS S3
-      uploadToS3(file);
-    });
-
-    req.pipe(busboy);
-  });
- 
 //Creating Log Files
 const accessLogStream = fs.createWriteStream(
   path.join(__dirname, "./access.log"),
@@ -118,6 +60,13 @@ const accessLogStream = fs.createWriteStream(
 //Running the auth routes
 const authRoutes = require('./auth/routes/routes')
 authRoutes(server);
+
+//Running the content routes
+const contentRoutes = require('./content/routes/routes')
+contentRoutes(server);
+
+// const authRoutes = require('./auth/routes/routes')
+// authRoutes(server);
 
 ///main
 mongoose.Promise = global.Promise;

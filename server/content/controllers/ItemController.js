@@ -1,5 +1,10 @@
+const {S3config,awsRegion} = require('../../config')
+const AWS = require('aws-sdk');
+const async= require('async')
+const Busboy = require('busboy')
+let signedUrls = [];
 ///helper function to upload image,Thumbnail and VideoUrl to S3
-const uploadToS3 = (file) => {
+const uploadToS3 = (file, urlType) => {
   const filetype = file.mimetype
   let s3bucket = new AWS.S3(S3config);
   s3bucket.createBucket(function () {
@@ -8,41 +13,50 @@ const uploadToS3 = (file) => {
         Key: file.name,
         Body: file.data,
         ACL: 'public-read',
-        ContentType: 'image/jpeg'
+        ContentType: `${filetype}`
       };
       s3bucket.upload(params, function (err, data) {
         if (err) {
-          console.log('error in callback');
-          console.log(err);
+          return res.status(503).json({message:`Error uploading ${urlType}`})
+        } else{
+          // signedUrls[urlType] = data.Location
+          signedUrls.push(data.Location);
         }
-        console.log('success');
-        console.log(data);
+        console.log(signedUrls)
       });
   });
 }
 
-const ItemS3upload = async (req,res,next) => {
-  const coverImageFile = req.body.coverImageFile;
-  const thumbnailFile = req.body.thumbnailFile;
-  const videoFile = req.body.videoFile;
-  try {
-    let coverImageFilerequest = await uploadToS3(coverImageFile);
-    let thumbnailfilerequest = await uploadToS3(thumbnailfile);
-    let videoFilerequest = await uploadToS3(videoFile);
-    next();
-  } catch (error){
-    res.status(503).json({message:'Upload to S3 failed'})
-  }
+const ItemS3upload =  async(req,res,next) => {
+  //Busboy is multiform HTTP parsing
+  const busboy = new Busboy({ headers: req.headers });
+  busboy.on('finish', async() => {
+    const files = Object.values(req.files)
+
+    //Below trials didn't work
+    // await Promise.all(files.map(item => uploadToS3(item)));
+    // await Promise.all(files.map(async item => await uploadToS3(item)));
+
+    // req.signedUrls = signedUrls;
+    // next();
+    files.map(item => uploadToS3(item))
+    setTimeout(() => {
+      req.signedUrls = signedUrls;
+      next();
+    }, 5000);
+  });
+  req.pipe(busboy);
 }
 
-const cerateItem = (req,res,next) => {
-
+const createItem = (req,res,next) => {
+  console.log('I am triggered')
+  console.log(req.signedUrls)
 }
 
 
 module.exports = {
   ItemS3upload,
-  cerateItem
+  createItem
 }
 
 

@@ -4,5 +4,5 @@ const {addToGenre} = require('../controllers/GenreController')
 module.exports = server => {
     server
         .route('/upload')
-        .post(ItemS3upload)
+        .post(ItemS3upload, createItem)
 }
