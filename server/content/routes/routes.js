@@ -1,8 +1,14 @@
 const {ItemS3upload,createItem} = require('../controllers/ItemController')
-const {addToGenre} = require('../controllers/GenreController')
+const {createGenre, getGenre} = require('../controllers/GenreController')
 
 module.exports = server => {
     server
-        .route('/upload')
+        .route('/createitem')
         .post(ItemS3upload, createItem)
+    server
+        .route('/creategenre')
+        .post(createGenre)
+    server
+        .route('/genres')
+        .get(getGenre)
 }

@@ -5,8 +5,8 @@ const GenreSchema = new Schema(
     {
         genre: {
             type: String,
-            unique: true,
-            required: true
+            required: true,
+            unique: true
         },
         carouselitems: [{
             type: Schema.Types.ObjectId,

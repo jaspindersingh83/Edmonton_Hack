@@ -5,8 +5,8 @@ const ItemSchema = new mongoose.Schema(
     {
         title: {
             type: String,
-            unique: true,
-            required: true
+            required: true,
+            unique: true
         },
         genre:{
             type: Schema.Types.ObjectId,
@@ -19,17 +19,14 @@ const ItemSchema = new mongoose.Schema(
         description: String,
         thumbnailUrl: {
             type: String,
-            unique: true,
             required: true
         },
-        imageUrl: {
+        coverImageUrl: {
             type: String,
-            unique: true,
             required: true
         },
         videoUrl: {
             type: String,
-            unique: true,
             required: true
         }, 
         createdAt: {
