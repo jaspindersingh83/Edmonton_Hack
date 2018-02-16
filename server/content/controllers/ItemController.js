@@ -44,25 +44,24 @@ const ItemS3upload =  async(req,res,next) => {
   let {genre, title} = req.body
   //Busboy is multiform HTTP parsing
   const busboy = new Busboy({ headers: req.headers });
-  next();
-  // busboy.on('finish', async() => {
-  //   console.log('S3 Upload triggered2')
-  //   const files = Object.values(req.files)
-  //   const urlTypes = Object.keys(req.files)
-  //   //Below trials didn't work
-  //   // await Promise.all(files.map(item => uploadToS3(item)));
-  //   // await Promise.all(files.map(async item => await uploadToS3(item)));
-  //   // req.signedUrls = signedUrls;
-  //   // next();
-
-  //   //We want genre and title to create the file hierarchy in S3
-  //   // files.map((item,index) => uploadToS3(item,urlTypes[index],genre, title ))
-  //   setTimeout(() => {
-  //     req.signedUrls = signedUrls;
-  //     next();
-  //   }, 5000);
-  // });
-  // req.pipe(busboy);
+  busboy.on('finish', async() => {
+    console.log('S3 Upload triggered2')
+    const files = Object.values(req.files)
+    const urlTypes = Object.keys(req.files)
+    //Below trials didn't work
+    // await Promise.all(files.map(item => uploadToS3(item)));
+    // await Promise.all(files.map(async item => await uploadToS3(item)));
+    // req.signedUrls = signedUrls;
+    // next();
+    
+    //We want genre and title to create the file hierarchy in S3
+    files.map((item,index) => uploadToS3(item,urlTypes[index],genre, title ))
+    setTimeout(() => {
+      req.signedUrls = signedUrls;
+      next();
+    }, 5000);
+  });
+  req.pipe(busboy);
 }
 
 const createItem = async (req,res) => {
@@ -76,14 +75,11 @@ const createItem = async (req,res) => {
     director,
     description,
   } = req.body
-  // const {thumbnail, coverImage, video} = req.signedUrls;
-  const thumbnail = 'sexy'+Math.floor(Math.random()*200)
-  const coverImage = 'mother'+Math.floor(Math.random()*200)
-  const video = 'fucker'+Math.floor(Math.random()*200)
+  const {thumbnail, coverImage, video} = req.signedUrls;
+  
   try{
     let genreReq = await Genre.findOne({genre})
     let genreId = genreReq._id
-    console.log('I m here1')
     let item = await Item.create({
       title, 
       maleLead,
@@ -96,14 +92,13 @@ const createItem = async (req,res) => {
       coverImageUrl: coverImage,
       videoUrl: video
     })
-  console.log('I m here2')
    await Genre.findOneAndUpdate(
      {_id:genreId},
      { $push: { carouselitems: item } },
    )
     res.status(200).json({success:true})
   } catch(error) {
-    res.status(422).json({error})
+    res.status(422).json({message: error})
   }
 }
 

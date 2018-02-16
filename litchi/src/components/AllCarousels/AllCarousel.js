@@ -21,6 +21,4 @@ class AllCarousel extends Component {
     }
 }
 
-
-
 export default AllCarousel;

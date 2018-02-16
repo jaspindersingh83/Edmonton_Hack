@@ -17,11 +17,23 @@ class Signup extends Component {
             error: undefined
         }
     }
-
+    componentWillReceiveProps(props) {
+        this.setState({ 
+            error:props.error
+        }); 
+    }
     renderAlert() {
         if (!this.state.error) return null;
         return <p style={{color:'#e50914'}}>{this.state.error}</p>;
     }   
+    //Rather than having individual input functions 
+    handleInput = (e,type) => {
+        e.preventDefault();
+        this.setState({
+            [type]:e.target.value
+        })
+    }
+
     signup = (e) =>{
         e.preventDefault();
         this.props.createUser(this.state, this.props.history);
@@ -31,19 +43,7 @@ class Signup extends Component {
             error: this.props.error
         })
     }
-    componentWillReceiveProps(props) {
-        this.setState({ 
-            error:props.error
-        }); 
-    }
 
-    //Rather than having individual input functions 
-    handleInput = (e,type) => {
-        e.preventDefault();
-        this.setState({
-            [type]:e.target.value
-        })
-    }
     render() {
         return (
         <div>

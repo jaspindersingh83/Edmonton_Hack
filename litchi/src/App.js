@@ -40,6 +40,7 @@ class App extends Component {
         <Route path='/logout' component= {Logout}/>
         <Route path='/signup' component= {Signup}/>
         <Route path='/admin' component= {Admin}/>
+        {/* <Route path='/allitems' component= {AllCarousel}/> */}
         {/* <SearchBar data={this.state.data}/>
         <AllCarousel data={this.state.data}/> */}
       </div>

@@ -8,21 +8,23 @@ class Dropdown extends Component {
         super(props);
         this.state = {
             options:props.options,
-            selectedOption: '',
+            selectedOption:''
         }
     }
     handleChange = (selectedOption) => {
-      this.setState({ selectedOption });
-    //   console.log(`Selected: ${selectedOption.label}`);
+      if(selectedOption){
+        this.setState({selectedOption:selectedOption.value})
+        this.props.handleChange(selectedOption.value)
+      } else{
+        this.setState({selectedOption:''})
+      }
     }
     render() {
-      const { selectedOption } = this.state;
-      const value = selectedOption && selectedOption.value;
       return (
         <Select className='Dropdown'
           name="form-field-name"
           placeholder = {this.props.placeholder}
-          value={value}
+          value={this.state.selectedOption}
           onChange={this.handleChange}
           options = {this.state.options}
         // The component needs options in following format

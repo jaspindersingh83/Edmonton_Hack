@@ -4,6 +4,8 @@ export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
 export const AUTHENTICATION_ERROR = 'AUTHENTICATION_ERROR';
 export const ADMIN_AUTHORIZED = 'ADMIN_AUTHORIZED';
+export const CREATE_ITEM = 'CREATE_ITEM'
+export const GETALL_ITEMS = 'GETALL_ITEMS'
 //To be changed for Production
 const ROOT_URL = 'http://localhost:5000';
 
@@ -91,5 +93,42 @@ export const adminAuth = async (history) => {
     } catch (error){
         history.push('/login');
         return authError('You are not authorized as admin');
+    }
+}
+
+export const createItem = async(item) => {
+    try{
+        await axios
+            .post(
+            `${ROOT_URL}/createitem`,
+            item, 
+            { 
+                headers: {
+                    'content-type': 'multipart/form-data'
+                }
+            });
+        return dispatch => {
+            dispatch({type: CREATE_ITEM, payload: true})
+            setTimeout(() => {
+                dispatch({type: CREATE_ITEM})
+            }, 4000)
+        }
+    } catch(error){
+        if(error.response.data.message.errmsg) {
+            let str = error.response.data.message.errmsg;
+            let arr = str.split(' ');
+            let duplicateType = ((arr[arr.indexOf('index:')+1]).split('_'))[0]
+            let duplicateKey = arr[arr.indexOf('key:')+3]
+            return authError(`Alredy Uploaded an item with ${duplicateType} ${duplicateKey}`);
+        }
+        return authError(error.response.data.errmsg);
+    }
+}
+
+export const getAllItems = async() => {
+    let getRequest = await axios.get( `${ROOT_URL}/getallitems`)
+    return {
+        type:GETALL_ITEMS,
+        payload:getRequest
     }
 }

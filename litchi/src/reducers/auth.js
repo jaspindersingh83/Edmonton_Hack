@@ -3,7 +3,7 @@ import {CREATE_USER, LOGIN, AUTHENTICATION_ERROR, ADMIN_AUTHORIZED, LOGOUT} from
 const authReducer = (auth={}, action) => {
   switch(action.type){
     //When user is created send signedUpusername in props so that username field 
-    //cam be auto populate at first instance of login
+    //can be auto populate at first instance of login
     case CREATE_USER:
       return {...auth,signedUpusername: action.payload.data.username};
 

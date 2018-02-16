@@ -1,12 +1,10 @@
 import React,{Component} from 'react';
 import './Admin.css';
-import moment from "moment";
 import { connect } from 'react-redux';
-import {adminAuth} from '../../actions';
+import {adminAuth, logout, createItem} from '../../actions';
 import Dropzone from 'react-dropzone';
 import Dropdown from '../Dropdown/Dropdown';
 import {Button} from 'react-bootstrap';
-import {logout} from '../../actions';
 
 const genreOption = [
     { value: 'PunjabiMovies', label: 'Punjabi Movies' },
@@ -20,32 +18,88 @@ class Admin extends Component{
     constructor(props){
         super(props);
         this.state = {
-            thumbnailFile : null,
-            coverImageFile: null,
-            videoFile: null,
-            Director:'',
-            Description:'',
+            genre:'',
+            title:'',
             maleLead:'',
-            femaleLead:''
+            femaleLead:'',
+            comedian:'',
+            director:'',
+            description:'',
+            thumbnail : null,
+            coverImage: null,
+            video: null,
+            error:'',
+            success: false
         }
     }
-    async componentWillMount(props){
+
+    componentWillMount(props){
         this.props.adminAuth(this.props.history)
     }
-    
+    componentWillReceiveProps(props) {
+        this.setState({ 
+            error:props.error,
+            success:props.success
+        }); 
+    }
+    handleInput = (e,type) => {
+        e.preventDefault();
+        this.setState({
+            [type]:e.target.value
+        })
+    }
+    handleDropdownChange = (e) => {
+        this.setState({
+            genre:e
+        })
+    }
+    onDrop = async(files, fileType) => {
+        this.setState({[fileType]: files[0]})
+    }
+    renderAttachmentName(type){
+        let fileField = this.state[type]
+        if(fileField){
+            return <p style={{color:'#e50914', fontSize:'14px'}}>attached file {fileField.name}</p>;
+        }
+    }
+    renderAlert() {
+        if (!this.state.error) return null;
+        return <p style={{color:'#e50914'}}>{this.state.error}</p>;
+    } 
+  
+    renderUploadSuccess(){
+        if (!this.state.success) return null;
+        return <p style={{color:'#e50914'}}>Upload Successfull</p>;
+    }
     logout = () =>{
         this.props.logout(this.props.history)
     }
-    formatFilename = (filename) =>{
-        const dateStr = moment().format('YYYYMMDD');
-        const cleanFileName = filename.toLowerCase().replace(/[^a-z0-9]/g, "-");
-        const newFilename = `images/${dateStr}-${cleanFileName}`;
-        return newFilename.substring(0, 60);
+
+    onSubmit= () => {
+        let item = this.state;
+        const formData = new FormData();
+        let keys = Object.keys(item);
+        keys.forEach(ele => {
+            if(item[ele]){
+                formData.append(ele,item[ele])
+            }
+        })
+        this.props.createItem(formData);
+        this.setState(
+            {
+                title:'',
+                maleLead:'',
+                femaleLead:'',
+                comedian:'',
+                director:'',
+                description:'',
+                thumbnail : null,
+                coverImage: null,
+                video: null,
+            }
+        )
     }
-    onDrop = async(files) => {
-        this.setState({thumbnailfile: files[0]})
-        console.log(this.state)
-    }
+
 
     render(){
         return(
@@ -60,27 +114,32 @@ class Admin extends Component{
                 </div>
                 <div className='Videocontainer'>
                     <div className='Videocontainer__Videodetails'>
+                        {this.renderAlert()}
+                        {this.renderUploadSuccess()}
                         <h3>Video Details </h3>
-                        <div className= 'Adminfield'>
-                            <Dropdown placeholder = 'Genre' options = {genreOption}
+                        <div className= 'Adminfield' >
+                            <Dropdown placeholder = 'Genre' options = {genreOption} handleChange= {this.handleDropdownChange}
                             />
                         </div>
-                        <label>Tags</label>
-                        <input style={{width: '60%'}} onChange={this.handleUsernameInput} value={this.state.username} type="text"/>
+                        <label>Title</label>
+                            <input style={{width: '60%'}} onChange={(e) => this.handleInput(e,'title')} value={this.state.title} type="text"/>
                         <label>Male Lead</label>
-                        <input style={{width: '60%'}} onChange={this.handleUsernameInput} value={this.state.username} type="text"/>
+                            <input style={{width: '60%'}} onChange={(e) => this.handleInput(e,'maleLead')} value={this.state.maleLead} type="text"/>
                         <label>Female Lead</label>
-                        <input style={{width: '60%'}} onChange={this.handleUsernameInput} value={this.state.username} type="text"/>
+                            <input style={{width: '60%'}} onChange={(e) => this.handleInput(e,'femaleLead')} value={this.state.femaleLead} type="text"/>
+                        <label>Comedian</label>
+                            <input style={{width: '60%'}} onChange={(e) => this.handleInput(e,'comedian')} value={this.state.comedian} type="text"/>
                         <label>Director</label>
-                        <input style={{width: '60%'}} onChange={this.handleUsernameInput} value={this.state.username} type="text"/>
+                            <input style={{width: '60%'}} onChange={(e) => this.handleInput(e,'director')} value={this.state.director} type="text"/>
                         <label>Video Description</label>
-                        <input style={{width: '60%', height:'105px'}} onChange={this.handleUsernameInput} value={this.state.username} type="text"/>
+                            <input style={{width: '60%', height:'105px'}} onChange={(e) => this.handleInput(e,'description')} value={this.state.description} type="text"/>
                     </div>
                     <div className='Videocontainer__Filesupload'>
                         <div className= 'Adminfield'>
                             <h3>Files Upload</h3>
                             <label>Upload Video</label>
-                            <Dropzone className='Dropzone' onDrop={this.onDrop}>
+                            {this.renderAttachmentName('video')}
+                            <Dropzone className='Dropzone' onDrop={(e) => this.onDrop(e,'video')}>
                                 <p>
                                     Drop Video file, or click to select Video to upload.
                                 </p>
@@ -88,7 +147,8 @@ class Admin extends Component{
                         </div>
                         <div className= 'Adminfield'>
                             <label>Upload Cover Image</label>
-                            <Dropzone className='Dropzone' onDrop={this.onDrop}>
+                            {this.renderAttachmentName('coverImage')}
+                            <Dropzone className='Dropzone' onDrop={(e) => this.onDrop(e,'coverImage')}>
                                 <p>
                                     Drop Cover image here, or click to select Cover Image to upload.
                                 </p>
@@ -96,13 +156,14 @@ class Admin extends Component{
                         </div>
                         <div className= 'Adminfield'>
                             <label>Upload Thumbnail</label>
-                            <Dropzone className='Dropzone' onDrop={this.onDrop}>
+                            {this.renderAttachmentName('thumbnail')}
+                            <Dropzone className='Dropzone' onDrop={(e) => this.onDrop(e,'thumbnail')}>
                                 <p>
                                     Drop thumbnail here, or click to select thumbnail to upload.
                                 </p>
                             </Dropzone>
                         </div>
-                        <Button style={{width:'100px',marginTop:'20px'}} bsStyle="danger" onClick={this.handleLoginClick}>
+                        <Button style={{width:'100px',marginTop:'20px'}} bsStyle="danger" onClick={this.onSubmit}>
                                 Submit
                         </Button>
                     </div>
@@ -114,9 +175,12 @@ class Admin extends Component{
 
 
 const mapStateToProps = (state) => {
+    // console.log(state)
     return {
-        admin: state.auth.admin
+        admin: state.auth.admin,
+        error: state.admin.error,
+        success: state.admin.itemUploaded
     };
 };
 
-export default connect(mapStateToProps, { adminAuth,logout })(Admin);
+export default connect(mapStateToProps, { adminAuth,logout, createItem })(Admin);
