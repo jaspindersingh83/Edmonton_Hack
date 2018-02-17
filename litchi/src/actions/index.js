@@ -5,7 +5,7 @@ export const LOGOUT = 'LOGOUT';
 export const AUTHENTICATION_ERROR = 'AUTHENTICATION_ERROR';
 export const ADMIN_AUTHORIZED = 'ADMIN_AUTHORIZED';
 export const CREATE_ITEM = 'CREATE_ITEM'
-export const GETALL_ITEMS = 'GETALL_ITEMS'
+export const GETALL_GENRES = 'GETALL_GENRES'
 //To be changed for Production
 const ROOT_URL = 'http://localhost:5000';
 
@@ -46,7 +46,7 @@ export const login = async (user, history) =>{
     try {
         const loginrequest = await axios.post(apiurl,user);
         localStorage.setItem('token', loginrequest.data.token);
-        history.push('/');
+        history.push('/genres');
         return {
             type:LOGIN,
             payload:loginrequest
@@ -125,10 +125,26 @@ export const createItem = async(item) => {
     }
 }
 
-export const getAllItems = async() => {
-    let getRequest = await axios.get( `${ROOT_URL}/getallitems`)
-    return {
-        type:GETALL_ITEMS,
-        payload:getRequest
+export const getAllgenres = async(history) => {
+    const token = localStorage.getItem('token')
+    try{
+        let getRequest = 
+        await axios
+                .get( 
+                    `${ROOT_URL}/genres`,
+                    { 
+                        headers: {
+                            Authorization: token
+                        }
+                    }
+                )
+        console.log(getRequest)
+        return {
+            type:GETALL_GENRES,
+            payload:getRequest
+        }
+    } catch(error){
+        history.push('/login');
+        return authError('You are not logged in, Please login');
     }
 }

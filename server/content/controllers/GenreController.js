@@ -11,7 +11,6 @@ const createGenre = async (req,res) => {
 }
 
 const getGenre = async (req,res) => {
-    const {genre} = req.body;
     try{
         let allGenres = await Genre.find({});
         res.status(200).json({allGenres})

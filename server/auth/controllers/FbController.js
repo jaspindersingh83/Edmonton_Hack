@@ -28,7 +28,7 @@ const fbstrategy = new FacebookStrategy(
 
 const fbLogin = (req,res) => {
   const token = req.user.myfbUserJWT;
-  res.json({ token: token });
+  res.redirect(`http://localhost:3000/token?${token}`)
 }
 
 module.exports = {fbstrategy, fbLogin }

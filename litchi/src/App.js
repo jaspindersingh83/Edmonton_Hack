@@ -13,8 +13,9 @@ import AllCarousel from './components/AllCarousels/AllCarousel';
 import Login from './components/Auth/Login';
 import Logout from './components/Auth/Logout';
 import Signup from './components/Auth/Signup';
-import Home from './components/Home/Home'
-import Admin from './components/Admin/Admin'
+import Home from './components/Home/Home';
+import Admin from './components/Admin/Admin';
+import Fbtoken from './components/Auth/Fbtoken';
 
 import dummyData from './dummy-data';
 
@@ -40,7 +41,8 @@ class App extends Component {
         <Route path='/logout' component= {Logout}/>
         <Route path='/signup' component= {Signup}/>
         <Route path='/admin' component= {Admin}/>
-        {/* <Route path='/allitems' component= {AllCarousel}/> */}
+        <Route path='/genres' component= {AllCarousel}/>
+        <Route path='/token' component= {Fbtoken}/>
         {/* <SearchBar data={this.state.data}/>
         <AllCarousel data={this.state.data}/> */}
       </div>

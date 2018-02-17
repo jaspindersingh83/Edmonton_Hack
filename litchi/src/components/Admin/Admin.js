@@ -32,9 +32,8 @@ class Admin extends Component{
             success: false
         }
     }
-
-    componentWillMount(props){
-        this.props.adminAuth(this.props.history)
+    async componentWillMount(){
+        await this.props.adminAuth(this.props.history)
     }
     componentWillReceiveProps(props) {
         this.setState({ 
@@ -175,7 +174,6 @@ class Admin extends Component{
 
 
 const mapStateToProps = (state) => {
-    // console.log(state)
     return {
         admin: state.auth.admin,
         error: state.admin.error,

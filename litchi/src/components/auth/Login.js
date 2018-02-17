@@ -52,7 +52,7 @@ class Login extends Component {
             password:e.target.value
         })
     }
-    fbLogin = async(e) => {
+    fbLogin = async() => {
         window.location = "http://localhost:5000/auth/facebook";
     }
 

@@ -22,7 +22,7 @@ module.exports = server => {
         .get(passport.authenticate('facebook'));
     server
         .route('/auth/facebook/callback')
-        .get(passport.authenticate('facebook', {
+        .get(passport.authenticate('facebook', { 
         failureRedirect: '/login',
         session: false}), fbLogin);
     server
@@ -31,4 +31,5 @@ module.exports = server => {
     server
         .route('/logout')
         .get(authenticate, logout);
+    
 };
