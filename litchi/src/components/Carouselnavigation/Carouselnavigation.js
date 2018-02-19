@@ -4,6 +4,19 @@ import './Carouselnavigation.css';
 import {Glyphicon} from 'react-bootstrap';
 
 class Carouselnavigation extends Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            carouselitems:props.carouselitems
+        }
+    }
+    
+    componentWillReceiveProps(props){
+        this.setState({
+            carouselitems:props.carouselitems
+        })
+    }
+
     render(){
         return (
             <div className='Carousel__inner'>
@@ -29,8 +42,8 @@ class Carouselnavigation extends Component{
                 <div className='Navbox__arrowholder__hidden'>
                 </div>}
             </div>
-            {this.props.carouselitems.map(carouselitem =>
-                <Carouselitem carouselitem = {carouselitem}/>
+            {this.state.carouselitems.map(carouselitem =>
+                <Carouselitem key={carouselitem} carouselitem = {carouselitem}/>
             )}
             </div>
         )

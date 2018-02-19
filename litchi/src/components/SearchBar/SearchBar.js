@@ -1,10 +1,8 @@
-import React, {Component} from 'react'
-import './SearchBar.css'
-import {Glyphicon,Button} from 'react-bootstrap'
+import React, {Component} from 'react';
+import './SearchBar.css';
+import {Glyphicon,Button} from 'react-bootstrap';
 
-
-
-class SearchBar extends Component {
+export default class SearchBar extends Component {
     constructor(props) {
         super(props);
         this.state ={
@@ -14,6 +12,10 @@ class SearchBar extends Component {
         }
     }
 
+    logout=() => {
+        this.props.logout(this.props.history)
+    }
+
     render() {
         return (
             <div className='Searchbar'>
@@ -21,10 +23,14 @@ class SearchBar extends Component {
                 glyph="list"
                 />
                 <div className='Searchbar__logoholder'>
-                Insert Logo here
+                Litchi
                 </div>
-                <input placeholder='Search' />
-                <Button>
+                <input style={{
+                    width: '30%',
+                    height: '60%'
+                }} 
+                placeholder='Search' />
+                <Button >
                     <Glyphicon 
                     glyph="search"
                     />
@@ -32,6 +38,7 @@ class SearchBar extends Component {
                 <div className='Searchbar__right'>
                 <Glyphicon 
                 glyph="user"
+                onClick={this.logout}
                 />
                 <Glyphicon 
                 glyph="bell"
@@ -42,4 +49,5 @@ class SearchBar extends Component {
     }
 }
 
-export default SearchBar;
+
+

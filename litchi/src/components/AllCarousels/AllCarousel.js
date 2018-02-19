@@ -19,15 +19,18 @@ class AllCarousel extends Component {
             allCarousel: this.props.content,
         })
     }
+    logout=() => {
+        this.props.logout(this.props.history)
+    }
    
     render(){
         return (
             <div>
-            < SearchBar />
+            <SearchBar logout= {this.logout} history= {this.props.history} />
             {this.state.allCarousel ?
             <div className='Allcarousel'>
                 {this.state.allCarousel.map((carouseltype) =>
-                    <Carousel data={carouseltype}/>
+                    <Carousel key= {carouseltype._id}  data={carouseltype}/>
                 )}
             </div> : null 
             }

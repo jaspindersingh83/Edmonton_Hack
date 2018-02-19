@@ -45,7 +45,6 @@ const ItemS3upload =  async(req,res,next) => {
   //Busboy is multiform HTTP parsing
   const busboy = new Busboy({ headers: req.headers });
   busboy.on('finish', async() => {
-    console.log('S3 Upload triggered2')
     const files = Object.values(req.files)
     const urlTypes = Object.keys(req.files)
     //Below trials didn't work
@@ -102,10 +101,21 @@ const createItem = async (req,res) => {
   }
 }
 
+const getItemById = async (req,res) => {
+  const id = req.params.id;
+  try{
+    let item = await Item.findById(id);
+    res.status(200).json(item);
+  }catch(error){
+    res.status(422).json({message: error})
+  }
+}
+
 
 module.exports = {
   ItemS3upload,
-  createItem
+  createItem,
+  getItemById
 }
 
 

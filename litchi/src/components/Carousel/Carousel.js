@@ -7,6 +7,7 @@ class Carousel extends Component{
         super(props);
         this.state = {
             genre:props.data.genre,
+            items:props.data.carouselitems
         }
     }
     render() {
@@ -16,7 +17,7 @@ class Carousel extends Component{
                     {this.state.genre}
                 </div>
                 <Carouselinner 
-                data = {this.props.data}
+                items = {this.state.items}
                 />
             </div> 
         )

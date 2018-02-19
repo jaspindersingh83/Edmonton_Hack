@@ -6,6 +6,7 @@ export const AUTHENTICATION_ERROR = 'AUTHENTICATION_ERROR';
 export const ADMIN_AUTHORIZED = 'ADMIN_AUTHORIZED';
 export const CREATE_ITEM = 'CREATE_ITEM'
 export const GETALL_GENRES = 'GETALL_GENRES'
+export const GET_ITEMBYID = 'GET_ITEMBYID'
 //To be changed for Production
 const ROOT_URL = 'http://localhost:5000';
 
@@ -125,6 +126,8 @@ export const createItem = async(item) => {
     }
 }
 
+
+
 export const getAllgenres = async(history) => {
     const token = localStorage.getItem('token')
     try{
@@ -138,7 +141,6 @@ export const getAllgenres = async(history) => {
                         }
                     }
                 )
-        console.log(getRequest)
         return {
             type:GETALL_GENRES,
             payload:getRequest
@@ -147,4 +149,28 @@ export const getAllgenres = async(history) => {
         history.push('/login');
         return authError('You are not logged in, Please login');
     }
+}
+
+export const getItemById = async (id) => {
+    const token = localStorage.getItem('token')
+    try{
+        let getRequest = 
+        await axios
+                .get( 
+                    `${ROOT_URL}/getitembyid/${id}`,
+                    { 
+                        headers: {
+                            Authorization: token
+                        }
+                    }
+                )
+        
+        return {
+            type:GET_ITEMBYID,
+            payload:getRequest
+        }
+    } catch(error){
+        console.log(error)
+    }
+
 }

@@ -6,7 +6,8 @@
     align-items: center;
     justify-content: flex-start;
     box-sizing: border-box;
-    border-bottom: 4px inset #f7f7f7cc;
+    /* border-bottom: 4px inset #f7f7f7cc; */
+    background-color:rgba(229, 9, 20, 1); 
 }
 .Searchbar__logoholder{
     width: 10%;
@@ -26,8 +27,8 @@
 .glyphicon{
     color: #11111166;
 }
-.glyphicon:hover { 
-    color: #88888833;
+.Searchbar__logoholder:hover,.glyphicon:hover { 
+    color: rgba(0, 0, 0, 0.8);
 }
 .glyphicon-list {
     font-size: 25px;
@@ -43,34 +44,13 @@
 .glyphicon-user{
     font-size: 25px;
 }
-/* input {
-    border: 1px solid #88888833 ;
-    padding-left: 5px;
-    font-size: 1.2em;
-    width: 30%;
-    height: 60%;
-  }
-  input::placeholder {
-    color:#11111166;
-    font-size: 15px;
-  } */
-
-@media (max-width: 600px){
-    input{
-        display: none
-    }
-}
 
 .btn-default{
-    border: 1px solid #88888833 ;
+    border: 1px solid #11111166 ;
     height: 60%;
     align-items: center;
     font-family: Roboto, Arial, sans-serif;
     font-size: 16px;
 }
 
-/* @media (max-width: 600px){
-    .btn-default{
-        display: none;
-    }
-} */
+

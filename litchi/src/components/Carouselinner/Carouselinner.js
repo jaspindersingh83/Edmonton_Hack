@@ -6,19 +6,20 @@ class Carouselinner extends Component{
     constructor(props) {
         super(props);
         this.state = {
-            carouselitems:props.data.carouselitems.slice(0,6),
+            items:props.items.slice(0,6),
             left:0,
             right:6,
         }
     }
-    moveRight = (event) => {
+    moveRight =  (event) => {
         event.preventDefault();
         let left = this.state.left;
         let right = this.state.right;
-        let allCarouselitems = this.props.data.carouselitems;
+        let allCarouselitems = this.props.items;
         if (right < allCarouselitems.length){
+            let newArr= allCarouselitems.slice(left+6,right+6)
             this.setState({
-                carouselitems: allCarouselitems.slice(left+6,right+6),
+                items: newArr,
                 left: left+6,
                 right: right+6
             });
@@ -28,17 +29,17 @@ class Carouselinner extends Component{
         event.preventDefault();
         let left = this.state.left;
         let right = this.state.right;
-        let allCarouselitems = this.props.data.carouselitems;
+        let allCarouselitems = this.props.items;
         if (right > allCarouselitems.length){
             let absoluteToLeft = Math.floor(allCarouselitems.length/6) * 6;
-            this.setState({
-                carouselitems: allCarouselitems.slice(absoluteToLeft-6,absoluteToLeft),
+             this.setState({
+                items: allCarouselitems.slice(absoluteToLeft-6,absoluteToLeft),
                 right : absoluteToLeft,
                 left: absoluteToLeft-6
             });
         } else {
             this.setState({
-                carouselitems: allCarouselitems.slice(left-6,right-6),
+                items: allCarouselitems.slice(left-6,right-6),
                 right : right-6,
                 left: left-6
             });
@@ -51,8 +52,8 @@ class Carouselinner extends Component{
                 moveLeft={this.moveLeft}
                 left = {this.state.left}
                 right = {this.state.right}
-                maxLength = {this.props.data.carouselitems.length}
-                carouselitems = {this.state.carouselitems}
+                maxLength = {this.props.items.length}
+                carouselitems = {this.state.items}
                 />
         )
     }
