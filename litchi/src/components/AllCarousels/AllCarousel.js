@@ -35,7 +35,6 @@ class AllCarousel extends Component {
             </div> : null 
             }
             </div> 
-
         )
     }
 }

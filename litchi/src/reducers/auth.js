@@ -1,4 +1,4 @@
-import {CREATE_USER, LOGIN, AUTHENTICATION_ERROR, ADMIN_AUTHORIZED, LOGOUT} from '../actions/index'
+import {CREATE_USER, LOGIN, AUTHENTICATION_ERROR, ADMIN_AUTHORIZED, LOGOUT, FORGOTPASSWORD, RESETPASSWORD} from '../actions/index'
 
 const authReducer = (auth={}, action) => {
   switch(action.type){
@@ -12,6 +12,12 @@ const authReducer = (auth={}, action) => {
 
     case LOGIN:
       return {...auth};
+
+    case FORGOTPASSWORD:
+      return {...auth, emailSent: true};
+
+    case RESETPASSWORD:
+      return {...auth, resetPassword: true};
 
     case LOGOUT:
       return {...auth};

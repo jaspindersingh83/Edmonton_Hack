@@ -21,11 +21,15 @@ async function hashPassword(req, res, next) {//same as const hashPassword = asyn
     })
 }
 
-const validateUsernamePassword = (req,res,next) => {
-    const {password, username, confirmPassword} = req.body;
+const validateUsername = (req,res,next) => {
+    const {username} = req.body;
     if(username.length < 5){
         return sendUserError(new Error('Your username must contain between 5 to 60 characters'), res);
     }
+    next();
+}
+const validatePasswords = (req,res,next) => {
+    const {password, confirmPassword} = req.body;
     if(password.length<6){
         return sendUserError(new Error('Your password must contain between 6 to 60 characters'), res);
     }
@@ -70,5 +74,6 @@ const matchPassword = async (req, res, next) => {
 module.exports = {validateEmail,
                 sendUserError,
                 hashPassword,
-                validateUsernamePassword,
+                validateUsername,
+                validatePasswords,
                 matchPassword}

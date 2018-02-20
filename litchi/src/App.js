@@ -13,10 +13,12 @@ import AllCarousel from './components/AllCarousels/AllCarousel';
 import Login from './components/Auth/Login';
 import Logout from './components/Auth/Logout';
 import Signup from './components/Auth/Signup';
+import Forgotpassword from './components/Auth/Forgotpassword';
+import Resetpassword from './components/Auth/Reset';
 import Home from './components/Home/Home';
 import Admin from './components/Admin/Admin';
 import Fbtoken from './components/Auth/Fbtoken';
-import Watch from './components/Watch/Watch'
+import Watch from './components/Watch/Watch';
 
 
 import './App.css';
@@ -34,6 +36,8 @@ class App extends Component {
             <Route path='/' component= {Home} exact/>
             <Route path='/login' component= {Login} exact/>
             <Route path='/logout' component= {Logout}/>
+            <Route path='/forgotpassword' component={Forgotpassword}/>
+            <Route path='/reset' component={Resetpassword}/>
             <Route path='/signup' component= {Signup}/>
             <Route path='/admin' component= {Admin}/>
             <Route path='/genres' component= {AllCarousel}/>

@@ -1,9 +1,18 @@
 const {validateEmail,
         hashPassword,
         matchPassword,
-        validateUsernamePassword} = require('../middleware/middleware');
+        validatePasswords,
+        validateUsername} = require('../middleware/middleware');
 const {authenticate} = require('../../common/common');
-const {createUser,getUsers,login,isAdmin,logout} = require('../controllers/UserController');
+const {createUser,
+    getUsers,
+    login,
+    isAdmin,
+    logout,
+    forgotPassword, 
+    sendResetEmailAndRedirect,
+    updateUserPassword,
+    sendResetPasswordEmail} = require('../controllers/UserController');
 const passport = require('passport');
 const {fbstrategy, fbLogin} = require('../controllers/FbController');
 passport.use(fbstrategy);
@@ -13,7 +22,11 @@ passport.use(fbstrategy);
 module.exports = server => {
     server
         .route('/signup')
-        .post(validateUsernamePassword, validateEmail, hashPassword, createUser);
+        .post(validateUsername,
+            validatePasswords, 
+            validateEmail, 
+            hashPassword, 
+            createUser);
     server
         .route('/login')
         .post(matchPassword,login);
@@ -31,5 +44,14 @@ module.exports = server => {
     server
         .route('/logout')
         .get(authenticate, logout);
-    
+    server
+        .route('/forgotpassword')
+        .post(forgotPassword, sendResetEmailAndRedirect);
+    server
+        .route('/reset')
+        .post(authenticate,
+            validatePasswords,
+            hashPassword, 
+            updateUserPassword,
+            sendResetPasswordEmail)
 };

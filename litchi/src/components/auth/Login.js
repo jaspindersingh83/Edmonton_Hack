@@ -64,6 +64,10 @@ class Login extends Component {
         if (!this.props.signedUpusername) return null;
         return <p style={{color:'#e50914'}}>Sign Up successfull, Please sign in</p>;
     }
+    renderResetPasswordSuccess = () => {
+        if (!this.props.resetPassword) return null;
+        return <p style={{color:'#e50914'}}>Password has been reset, Please sign in with new password</p>;
+    }
 
     render() {
         return (
@@ -74,13 +78,14 @@ class Login extends Component {
                     <h1 style={{marginBottom:'20px'}} >Sign In</h1>
                     {this.renderAlert()}
                     {this.renderSignupSuccess()}
+                    {this.renderResetPasswordSuccess()}
                     <form onSubmit={this.login}>
                         <label>Username or Email</label>
                         <input onChange={this.handleUsernameInput} value={this.state.username} type="text"/>
                         <label>Password</label>
                         <input onChange={this.handlePasswordInput} value={this.state.password} type="password"/>
                         <p style={{marginTop:'50px', marginBottom:'0px'}}>
-                            <Link to={'/'} className='Link'>Forgot username or password?</Link>
+                            <Link to={'/forgotpassword'} className='Link'>Forgot username or password?</Link>
                         </p>
                         <Button style={{width:'100%', margin:'20px 0px'}} bsStyle="danger" type="submit" >
                             Sign In
@@ -105,7 +110,8 @@ class Login extends Component {
 const mapStateToProps = (state) => {
     return {
         error: state.auth.error,
-        signedUpusername: state.auth.signedUpusername
+        signedUpusername: state.auth.signedUpusername,
+        resetPassword: state.auth.resetPassword
     };
 };
 

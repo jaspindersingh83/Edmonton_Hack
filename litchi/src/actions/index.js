@@ -7,6 +7,8 @@ export const ADMIN_AUTHORIZED = 'ADMIN_AUTHORIZED';
 export const CREATE_ITEM = 'CREATE_ITEM'
 export const GETALL_GENRES = 'GETALL_GENRES'
 export const GET_ITEMBYID = 'GET_ITEMBYID'
+export const FORGOTPASSWORD = 'FORGOTPASSWORD'
+export const RESETPASSWORD = 'RESETPASSWORD'
 //To be changed for Production
 const ROOT_URL = 'http://localhost:5000';
 
@@ -55,6 +57,36 @@ export const login = async (user, history) =>{
     } catch (error){
         return authError(error.response.data.message);
     }     
+}
+export const forgotPassword = async(email) => {
+    try{
+        await axios.post(`${ROOT_URL}/forgotpassword`,{email});
+        return {
+            type:FORGOTPASSWORD
+        }
+    }catch(error){
+        return authError(error.response.data.message);
+    }
+}
+
+export const resetPassword = async(passwords, history) => {
+    let token = localStorage.getItem('token');
+    try{
+        await axios.post(`${ROOT_URL}/reset`,
+            passwords,
+            { 
+                headers: {
+                Authorization: token
+                }
+            }
+        );
+        history.push('/login')
+        return {
+            type:RESETPASSWORD
+        }
+    }catch(error){
+        return authError(error.response.data.message);
+    }
 }
 export const logout = async (history) =>{
     const apiurl = `${ROOT_URL}/logout`;
@@ -172,5 +204,4 @@ export const getItemById = async (id) => {
     } catch(error){
         console.log(error)
     }
-
 }
