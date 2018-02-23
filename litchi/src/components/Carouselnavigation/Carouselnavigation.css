@@ -1,27 +1,20 @@
-.Navbox{
-    display: flex;
-    height: 150px;
-    width: 98.6%;
-    position: absolute;
-    justify-content: space-between;
-    opacity: 0;
-    transition-duration: 1s;
-    z-index: 10;
-    pointer-events:auto
-}
-.Navbox:hover {
-   opacity: 1;
-}
+
 .Navbox__arrowholder{
     width: 4%;
-    height: 100%;
     display: flex;
     align-items: center;
     background: rgba(0, 0, 0, 0.4);
     justify-content: center;
-    opacity: 1;
+    transition-duration: 1s;
+    cursor: pointer;
+    position: absolute;
+    height: 150px;
+    z-index: 10;
 }
-.Navbox__arrowholder__hidden{
-    height: 100%;
-    opacity: 0;
+.right {
+    right:0px
+}
+
+.left {
+    left:0px
 }

@@ -1,6 +1,6 @@
 import React,{ Component } from 'react';
-import Carouselnavigation from '../Carouselnavigation/Carouselnavigation'
-import './Carouselinner.css'
+import Carouselnavigation from '../Carouselnavigation/Carouselnavigation';
+import './Carouselinner.css';
 
 class Carouselinner extends Component{
     constructor(props) {
@@ -47,14 +47,14 @@ class Carouselinner extends Component{
     }
     render() {
         return (
-                <Carouselnavigation 
-                moveRight={this.moveRight}
-                moveLeft={this.moveLeft}
-                left = {this.state.left}
-                right = {this.state.right}
-                maxLength = {this.props.items.length}
-                carouselitems = {this.state.items}
-                />
+            <Carouselnavigation 
+            moveRight={this.moveRight}
+            moveLeft={this.moveLeft}
+            left = {this.state.left}
+            right = {this.state.right}
+            maxLength = {this.props.items.length}
+            carouselitems = {this.state.items}
+            />
         )
     }
 }

@@ -34,6 +34,8 @@ Using Redux Promise and Thunk both. Need to learn how to handle everything with 
 
 * Once you change MongoDB fields make sure to see db.collection.getIndex and use dropIndex to remove any previously saved indexes. Has a major burn because of it
 
+* One of the issue with facebook auth was that I was getting authenticated but could not get the JWT to store. For that I defined a dummy route '/toke?${JWToken}
+and sent the client to this intermediate url. where I queried the JWT from URL itself. BTW JWT decode lets to know username, email and other detaisl.
 
 
 

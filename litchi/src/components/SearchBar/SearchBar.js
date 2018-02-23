@@ -1,47 +1,36 @@
 import React, {Component} from 'react';
 import './SearchBar.css';
-import {Glyphicon,Button} from 'react-bootstrap';
+import {Glyphicon} from 'react-bootstrap';
+import Searchbarautocomplete from './Searchbarautocomplete';
+
 
 export default class SearchBar extends Component {
-    constructor(props) {
-        super(props);
-        this.state ={
-            allData : props.data,
-            searchinput : '',
-            searchData:[],
-        }
-    }
 
     logout=() => {
         this.props.logout(this.props.history)
+    }
+    reloadCurrentPage = () =>{
+        window.location.reload(true);
     }
 
     render() {
         return (
             <div className='Searchbar'>
                 <Glyphicon 
-                glyph="list"
+                    glyph="list"
                 />
-                <div className='Searchbar__logoholder'>
-                Litchi
+                <div className='Searchbar__logoholder' onClick={this.reloadCurrentPage}>
+                    Litchi
                 </div>
-                <input style={{
-                    width: '30%',
-                    height: '60%'
-                }} 
-                placeholder='Search' />
-                <Button >
-                    <Glyphicon 
-                    glyph="search"
-                    />
-                </Button>
+                <Searchbarautocomplete onSearchSubmit={this.props.onSearchSubmit} />
                 <div className='Searchbar__right'>
-                <Glyphicon 
-                glyph="user"
-                onClick={this.logout}
+                <Glyphicon style={{cursor: 'pointer'}}
+                    glyph="user"
+                    title="logout"
+                    onClick={this.logout}
                 />
                 <Glyphicon 
-                glyph="bell"
+                    glyph="bell"
                 />
                 </div>
             </div>

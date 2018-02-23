@@ -1,0 +1,16 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: litchi-frontend # You'll need to manually type this out. The environment variable won't work
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels: # labels to select/identify the deployment
+        app: litchi-frontend
+    spec:     # pod spec                  
+      containers: 
+      - name: litchi-frontend 
+        image: gcr.io/litchi-frontend/litchi-frontend-devops:v1  # image we pushed
+        ports:
+        - containerPort: 3000

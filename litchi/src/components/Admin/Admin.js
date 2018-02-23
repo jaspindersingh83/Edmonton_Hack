@@ -7,8 +7,8 @@ import Dropdown from '../Dropdown/Dropdown';
 import {Button} from 'react-bootstrap';
 
 const genreOption = [
-    { value: 'PunjabiMovies', label: 'Punjabi Movies' },
-    { value: 'HindiMovies', label: 'Hindi Movies' },
+    { value: 'Punjabi Movies', label: 'Punjabi Movies' },
+    { value: 'Hindi Movies', label: 'Hindi Movies' },
     { value: 'Standup', label: 'Stand Up Comedy' },
     { value: 'Documentaries', label: 'Documentaries' },
     { value: 'Shows', label: 'Shows' },

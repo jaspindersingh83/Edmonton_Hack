@@ -6,11 +6,13 @@ export const AUTHENTICATION_ERROR = 'AUTHENTICATION_ERROR';
 export const ADMIN_AUTHORIZED = 'ADMIN_AUTHORIZED';
 export const CREATE_ITEM = 'CREATE_ITEM'
 export const GETALL_GENRES = 'GETALL_GENRES'
+export const GETALL_ITEMS = 'GETALL_ITEMS'
 export const GET_ITEMBYID = 'GET_ITEMBYID'
 export const FORGOTPASSWORD = 'FORGOTPASSWORD'
 export const RESETPASSWORD = 'RESETPASSWORD'
 //To be changed for Production
-const ROOT_URL = 'http://localhost:5000';
+// const ROOT_URL = 'http://35.230.38.149:8080';
+const ROOT_URL = 'http://localhost:8080';
 
 export const authError = error => {
     return dispatch => {
@@ -196,12 +198,29 @@ export const getItemById = async (id) => {
                         }
                     }
                 )
-        
         return {
             type:GET_ITEMBYID,
             payload:getRequest
         }
     } catch(error){
-        console.log(error)
+        return authError('No item with that id');
+    }
+}
+
+export const getAllItems = async () => {
+    const token = localStorage.getItem('token')
+    try{
+        let itemsRequest = await axios.get(`${ROOT_URL}/getallitems/`,
+        { 
+            headers: {
+                Authorization: token
+            }
+        });
+        return {
+            type:GET_ITEMBYID,
+            payload:itemsRequest
+        }
+    }catch(error){
+        return authError('No Items could be fethced');
     }
 }

@@ -27,7 +27,6 @@ import './App.css';
 const createStoreWithMiddleware = applyMiddleware(ReduxPromise,ReduxThunk)(createStore);
 
 class App extends Component {
-
   render() {
     return (
       <Provider  store={createStoreWithMiddleware(reducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())}>

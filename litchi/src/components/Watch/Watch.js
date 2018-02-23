@@ -12,8 +12,8 @@ class Watch extends Component{
         } 
     }
     async componentWillMount(){
-        let videoUrl = localStorage.getItem('video')
-        let coverImageUrl = localStorage.getItem('coverImage')
+        let videoUrl = await localStorage.getItem('video')
+        let coverImageUrl = await localStorage.getItem('coverImage')
         await this.setState({
             videoUrl,
             coverImageUrl
@@ -22,7 +22,6 @@ class Watch extends Component{
     componentDidMount() {
         // subscribe state change
         this.refs.player.subscribeToStateChange(this.handleStateChange);
-        console.log(this.state)
       }
 
       handleStateChange = (state, prevState) =>{

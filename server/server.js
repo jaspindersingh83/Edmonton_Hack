@@ -14,7 +14,12 @@ const busboy = require('connect-busboy');
 const busboyBodyParser = require('busboy-body-parser')
 
 //Configs
-const {S3config,awsRegion} = require('./config')
+const {S3config,
+    awsRegion,
+    dbuser,
+    dbpassword} = require('./config')
+
+
 
 
 //Cors 
@@ -27,7 +32,7 @@ const {S3config,awsRegion} = require('./config')
 // const session = require('express-session');
 
 const server = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 8080;
 
 //Global Middlewares
 server.use(bodyParser.json());
@@ -70,7 +75,7 @@ contentRoutes(server);
 
 ///main
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost:27017/litchi', { useMongoClient: true })
+mongoose.connect(`mongodb://${dbuser}:${dbpassword}@ds143678.mlab.com:43678/litchi`, { useMongoClient: true })
     .then(function() {
         server.listen(port,function(){
             console.log(`The databases are connected to server on ${port}`)

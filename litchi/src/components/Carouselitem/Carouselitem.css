@@ -3,7 +3,6 @@
    height: 225px;
    align-items: center;
    cursor: pointer;
-   pointer-events:auto
 }
 .Carouselitem__img {
     width: 250px;
@@ -11,15 +10,16 @@
     box-sizing: border-box;
     margin-right: 10px;
 }
-.Carouselitem:hover {
-    opacity: 0.5;
+.Carouselitem__overlay {
+    display: flex;
+    height: 225px;
+    justify-content: center; 
+    align-items: center;
+    font-size: 44px;
+    z-index: 2;
+    position: absolute;
+    width: 250px;
 }
 
-/* .Carouselitem__details{
-
-} */
-/* .Carouselitem__img:hover{
-    height: 350px;
-} */
 
 

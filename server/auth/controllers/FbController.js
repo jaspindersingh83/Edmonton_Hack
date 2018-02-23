@@ -4,11 +4,13 @@ const User = require('../models/UserModel.js');
 const jwt = require('jsonwebtoken');
 const {mysecret} = require('../../config')
 
+
 const fbstrategy = new FacebookStrategy(
     {
       clientID: FACEBOOK_APP_ID,
       clientSecret:FACEBOOK_APP_SECRET,
-      callbackURL: 'http://localhost:5000/auth/facebook/callback',
+      //server url
+      callbackURL: 'http://35.230.38.149:8080/auth/facebook/callback',
     },
     async (accessToken, refreshToken, profile, cb) => {
       const { id } = profile;
@@ -28,7 +30,8 @@ const fbstrategy = new FacebookStrategy(
 
 const fbLogin = (req,res) => {
   const token = req.user.myfbUserJWT;
-  res.redirect(`http://localhost:3000/token?${token}`)
+  //Client url redirect
+  res.redirect(`http://35.185.250.160:3000/token?${token}`)
 }
 
 module.exports = {fbstrategy, fbLogin }

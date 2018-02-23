@@ -53,7 +53,7 @@ class Login extends Component {
         })
     }
     fbLogin = async() => {
-        window.location = "http://localhost:5000/auth/facebook";
+        window.location = "http://35.230.38.149:8080/auth/facebook";
     }
 
     renderAlert = () => {

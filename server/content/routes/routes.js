@@ -1,4 +1,7 @@
-const {ItemS3upload,createItem, getItemById} = require('../controllers/ItemController')
+const {ItemS3upload,
+    createItem, 
+    getItemById,
+    getAllItems} = require('../controllers/ItemController')
 const {createGenre, getGenre} = require('../controllers/GenreController')
 const {authenticate} = require('../../common/common');
 module.exports = server => {
@@ -13,5 +16,13 @@ module.exports = server => {
         .get(authenticate, getGenre)
     server
         .route('/getitembyid/:id')
-        .get(getItemById)  
+        .get(authenticate,getItemById)  
+    server
+        .route('/testdeployment')
+        .get((req,res) => {
+            res.send('Magic is happening')
+        })
+    server
+        .route('/getallitems')
+        .get(authenticate,getAllItems)
 }

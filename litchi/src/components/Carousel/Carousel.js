@@ -12,6 +12,7 @@ class Carousel extends Component{
     }
     render() {
         return (
+      
             <div className='Carousel'>
                 <div className='Carousel__header'>
                     {this.state.genre}
@@ -20,6 +21,7 @@ class Carousel extends Component{
                 items = {this.state.items}
                 />
             </div> 
+           
         )
     }
 }

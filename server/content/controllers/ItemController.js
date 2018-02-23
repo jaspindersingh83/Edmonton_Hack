@@ -72,7 +72,7 @@ const createItem = async (req,res) => {
     femaleLead,
     comedian,
     director,
-    description,
+    description,    
   } = req.body
   const {thumbnail, coverImage, video} = req.signedUrls;
   
@@ -111,11 +111,21 @@ const getItemById = async (req,res) => {
   }
 }
 
+const getAllItems = async (req,res) => {
+  try{
+    let items = await Item.find({});
+    res.status(200).json(items);
+  }catch(error){
+    res.status(422).json({message: error})
+  }
+}
+
 
 module.exports = {
   ItemS3upload,
   createItem,
-  getItemById
+  getItemById,
+  getAllItems
 }
 
 
