@@ -119,13 +119,30 @@ const getAllItems = async (req,res) => {
     res.status(422).json({message: error})
   }
 }
+const deleteItemById = async (req,res) => {
+  const itemId = req.params.id;
+  try {
+    let item = await Item.findById(itemId)
+    let genreId = item.genre;
+    await Genre.findOneAndUpdate(
+      {_id:genreId},
+      { $pull: { carouselitems: {_id:itemId} } },
+    );
+    await Item.findByIdAndRemove(itemId);
+    res.status(200).json({success: true})
+
+  } catch (error){
+    res.status(422).json({message:error})
+  }
+}
 
 
 module.exports = {
   ItemS3upload,
   createItem,
   getItemById,
-  getAllItems
+  getAllItems,
+  deleteItemById
 }
 
 

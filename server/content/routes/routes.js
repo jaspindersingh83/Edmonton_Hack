@@ -1,7 +1,8 @@
 const {ItemS3upload,
     createItem, 
     getItemById,
-    getAllItems} = require('../controllers/ItemController')
+    getAllItems,
+    deleteItemById} = require('../controllers/ItemController')
 const {createGenre, getGenre} = require('../controllers/GenreController')
 const {authenticate} = require('../../common/common');
 module.exports = server => {
@@ -24,5 +25,8 @@ module.exports = server => {
         })
     server
         .route('/getallitems')
-        .get(authenticate,getAllItems)
+        .get(getAllItems)
+    server
+        .route('/deleteitembyid/:id')
+        .delete(deleteItemById)  
 }
